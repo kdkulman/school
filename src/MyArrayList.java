@@ -10,20 +10,20 @@ public class MyArrayList<Type extends Comparable<Type>> {
     private int capacity;
     private int size;
     private Type[] list;
-    private int comparisons;
+    private long comparisons;
 
     //Constructor with initial size
     public MyArrayList(int size){
         this.size = size;
         capacity = size*2;
-        list = (Type[]) new Object[capacity];
+        list = (Type[]) new Comparable[capacity];
     }
 
     //Constructor without initial size
     public MyArrayList(){
         this.size = 0;
         this.capacity = 16;
-        list = (Type[]) new Object[capacity];
+        list = (Type[]) new Comparable[capacity];
     }
 
     //insert - Inserts the item at position index. Any elements after the inserted
@@ -43,8 +43,8 @@ public class MyArrayList<Type extends Comparable<Type>> {
     //insert - Inserts the item at end of array list - no index required
     public void insert(Type type){
         if (size == capacity) resize(); //Check if list is full and resize
-        size++;
         list[size] = type;
+        size++;
     }
 
     //remove - Removes the element at position index and returns the element. Any
@@ -92,44 +92,45 @@ public class MyArrayList<Type extends Comparable<Type>> {
 
     //sort - Sorts the list in ascending order - merge sort
     public void sort(){
-        //mergeSort(list, 0, size-1);
+        merge(0, size-1);
     }
 
     //Helper method for sort
-    private MyArrayList<Type> mergeSort(MyArrayList<Type> theList, int start, int finish){
-        MyArrayList<Type> helper = new MyArrayList<>();
-        for(int i = start; i < finish; i++){ //COPY INTO HELPER LIST
-            helper.insert(get(i));
+    private void mergeSort(int start, int finish){
+        Comparable[] helper = new Comparable[finish+1];
+        for(int i = start; i <= finish; i++){ //COPY INTO HELPER LIST
+            helper[i] = get(i);
         }
         int mid = (start+finish)/2;
         int i = start;
         int j = mid + 1;
         int k = start;
         while(i <= mid && j <= finish) { //keep track of indices
-            if (helper.get(i).compareTo(helper.get(j)) <= 0) {
-                set(i, helper.get(i));
+            if (helper[i].compareTo(helper[j]) <= 0) {
+                set(k, (Type) helper[i]);
                 i++;
             } else {
-                set(j, helper.get(i));
+                set(k, (Type) helper[j]);
                 j++;
             }
             k++;
         }
-
-        //ADD REST OF ELEMENTS IN
-
-
-
-    }
-
-    private void merge(MyArrayList<Type> theList, int start, int finish){
-        if(finish < start){ //Check if the list is greater than size 1
-            mergeSort(theList, start, finish/2);
-            mergeSort(theList, finish/2+1, finish);
-            mergeSort(theList, start, finish);
+        while (i <= mid){//ADD REST OF ELEMENTS IN
+            set(k, (Type) helper[i]);
+            k++;
+            i++;
         }
     }
 
+    //Helper method for sort
+    private void merge(int start, int finish){
+        if(finish > start){ //Check if the list is greater than size 1
+            int mid = start + (finish - start) / 2;
+            merge(start, mid);
+            merge(mid+1, finish);
+            mergeSort(start, finish);
+        }
+    }
 
     //set - Updates the element stored at index. Does nothing if index is out of bounds.
     public void set(int index, Type type){
@@ -140,7 +141,6 @@ public class MyArrayList<Type extends Comparable<Type>> {
             list[index] = type;
         }
     }
-
 
     //size - Returns the field size
     public int size(){

@@ -10,7 +10,7 @@ public class MyLinkedList<Type extends Comparable> {
     private Node first; //Reference to the first Node in the list
     private Node current; //Reference to the current Node in the list
     private Node previous; //Reference to the previous current Node in the list
-    private int comparisons; //
+    private long comparisons; //
     private int size;
 
     //Constructor
@@ -134,6 +134,60 @@ public class MyLinkedList<Type extends Comparable> {
         if ( size == 0) return true;
         return false;
     }
+
+    //sort - Sorts the list in ascending order.
+    public void sort(){
+        merge(0, size-1);
+    }
+
+    //Helper method for sort
+    private void mergeSort(int start, int finish){
+        first();
+        for(int i = 0; i < start; i++){ //move current to start
+            next();
+        }
+        Comparable[] helper = new Comparable[finish+1];
+        for(int i = start; i <= finish; i++){ //COPY INTO HELPER LIST
+            helper[i] = current();
+            next();
+        }
+
+        //MOVE CURRENT TO START
+        first();
+        for(int i = 0; i < start; i++){
+            next();
+        }
+        int mid = (start+finish)/2;
+        int i = start;
+        int j = mid + 1;
+        while(i <= mid && j <= finish) { //keep track of indices
+            if (helper[i].compareTo(helper[j]) <= 0) {
+                current.item = (Type) helper[i]; //update actual linked list
+                i++;
+            } else {
+                current.item = (Type) helper[j]; //update actual linked list
+                j++;
+            }
+            next();
+        }
+        while (i <= mid){//ADD REST OF ELEMENTS IN LINKEDLIST
+            current.item = (Type) helper[i];
+            next();
+            i++;
+        }
+    }
+
+    //Helper method for sort
+    private void merge(int start, int finish){
+        if(finish > start){ //Check if the list is greater than size 1
+            int mid = start + (finish - start) / 2;
+            merge(start, mid);
+            merge(mid+1, finish);
+            mergeSort(start, finish);
+        }
+    }
+
+
 
     //toString - Returns a string that has the contents of the Nodes separated by
     //commas and spaces and enclosed in square brackets.

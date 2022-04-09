@@ -99,3 +99,20 @@
         list.remove(4);
         list.remove(1);
         test("" + list.toString(), "[900, 3, 2, 55, 76, 5, 1]");
+
+        //TEST 22
+        test("" + list.find(55), "55");
+
+        //TEST 23
+        test("" + list.find(12), "null");
+
+        //TEST 24
+        test("" + list.find(1), "1");
+
+        //TEST 25
+        test("" + list.find(-1), "null");
+
+        //TEST 26
+        test("" + list.find(900), "900");
+
+

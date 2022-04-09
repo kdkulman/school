@@ -1,7 +1,7 @@
 /*
  * This class creates a Transpose List out of an existing LinkedList
  * @author Kevin Kulman
- * @version 4/3/22
+ * @version 4/9/22
  *
  */
 
@@ -48,11 +48,8 @@ public class TransposeList<Type extends Comparable<Type>> {
         for(int i = 0; i < size(); i++){
             if(list.current().compareTo(type) == 0 && isSwapped == false){ //check if a match
                 isSwapped = true;
-                if(i == 0) {
-                    returnNode = type;
-                } else {
-                    list.swapWithPrevious();
-                }
+                returnNode = type;
+                if(i != 0) list.swapWithPrevious();
             } else {
                 list.next(); //Keep cycling through to keep current always in last place
             }
