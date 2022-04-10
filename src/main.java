@@ -1,3 +1,7 @@
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Random;
 
 /*
@@ -24,49 +28,30 @@ public class main {
 
     public static void main(String[] args) {
 
-        /*
-         * ARRAYLIST SORTING TEST CODE
-         * ADD THE HELPER TEST METHOD TO MAIN CLASS
-         */
-        MyArrayList<Integer> list = new MyArrayList<>();
-        Random rand = new Random();
-        list.insert(38);
-        list.insert(80);
-        list.insert(53);
-        list.insert(72);
-        list.insert(2);
-        list.insert(50);
-        list.insert(111);
-        list.insert(23);
+        try {
+            UniqueWords uniqueWords = new UniqueWords();
+//            BookReader b = new BookReader("C:\\Java\\jdk-17.0.1\\bin\\corejava\\v1ch02\\DataStructures\\src\\WarAndPeace.txt");
+        } catch (IOException e){
+            System.out.println("File not found.");
+        }
+        //Test 1
 
-        MyLinkedList<Integer> linkedList = new MyLinkedList<>();
-        linkedList.addToEnd(45);
-        linkedList.addToEnd(90);
-        linkedList.addToEnd(12);
-        linkedList.addToEnd(3);
-        linkedList.addToEnd(78);
-        linkedList.addToEnd(1);
-        linkedList.addToEnd(-9);
-        linkedList.addToEnd(50);
+//        MyLinkedList list = new MyLinkedList<>();
+//        LinkedList<Integer> list2 = new LinkedList<>();
+//        Random rand = new Random();
+//        for(int i = 0; i < 100000; i++){
+//            list.addToEnd(rand.nextInt(40000));
+//            list2.add(rand.nextInt(50000));
+//        }
+//        Collections.sort(list2);
+//        //list.sort();
+//        System.out.println(list.toString());
+//        System.out.println("Sorted with " + list.comparisons + " comparisons");
 
-        //TEST 1
-        test(list.toString(), "[38, 80, 53, 72, 2, 50, 111, 23]");
-
-        //TEST 2
-        list.sort();
-        test(list.toString(), "[2, 23, 38, 50, 53, 72, 80, 111]");
-
-        //TEST 3
-        test(linkedList.toString(), "[45, 90, 12, 3, 78, 1, -9, 50]");
-
-        //TEST 4
-        linkedList.sort();
-        test(linkedList.toString(), "[-9, 1, 3, 12, 45, 50, 78, 90]");
 
         //RESULT
         System.out.println("----------------------------");
         System.out.println("Passed " + passed + "/" + testCount + " tests!");
-
 
     }
 }

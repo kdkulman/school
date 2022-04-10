@@ -1,7 +1,7 @@
 /*
  * Implementation of a LinkedList
  * @author Kevin
- * @version 3/31/22
+ * @version 4/10/22
  *
  */
 
@@ -10,13 +10,14 @@ public class MyLinkedList<Type extends Comparable> {
     private Node first; //Reference to the first Node in the list
     private Node current; //Reference to the current Node in the list
     private Node previous; //Reference to the previous current Node in the list
-    private long comparisons; //
+    public long comparisons; //
     private int size;
 
     //Constructor
     public MyLinkedList(){
         first = null; //LinkedList begins empty
         size = 0;
+        comparisons = 0;
     }
 
     //addBefore - Adds the item before the current Node.
@@ -113,9 +114,11 @@ public class MyLinkedList<Type extends Comparable> {
 
     //contains - Searches the Nodes for the item and returns true if found; else false
     public boolean contains(Type type){
+        comparisons++;
         Node node = first;
         for(int i = 0; i < size; i++){
             Type theType = (Type) node.item;
+            comparisons++;
             if (theType.compareTo(type) == 0){
                 return true;
             }
@@ -137,7 +140,7 @@ public class MyLinkedList<Type extends Comparable> {
 
     //sort - Sorts the list in ascending order.
     public void sort(){
-        merge(0, size-1);
+        if(!isEmpty()) merge(0, size-1);
     }
 
     //Helper method for sort
@@ -151,12 +154,12 @@ public class MyLinkedList<Type extends Comparable> {
             helper[i] = current();
             next();
         }
-
         //MOVE CURRENT TO START
         first();
         for(int i = 0; i < start; i++){
             next();
         }
+
         int mid = (start+finish)/2;
         int i = start;
         int j = mid + 1;
@@ -186,8 +189,6 @@ public class MyLinkedList<Type extends Comparable> {
             mergeSort(start, finish);
         }
     }
-
-
 
     //toString - Returns a string that has the contents of the Nodes separated by
     //commas and spaces and enclosed in square brackets.

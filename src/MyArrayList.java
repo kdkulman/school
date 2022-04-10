@@ -1,7 +1,7 @@
 /*
  * Implementation of an ArrayList
  * @author Kevin
- * @version 3/30/22
+ * @version 4/10/22
  *
  */
 
@@ -10,13 +10,14 @@ public class MyArrayList<Type extends Comparable<Type>> {
     private int capacity;
     private int size;
     private Type[] list;
-    private long comparisons;
+    public long comparisons;
 
     //Constructor with initial size
     public MyArrayList(int size){
         this.size = size;
         capacity = size*2;
         list = (Type[]) new Comparable[capacity];
+        comparisons = 0;
     }
 
     //Constructor without initial size
@@ -24,6 +25,7 @@ public class MyArrayList<Type extends Comparable<Type>> {
         this.size = 0;
         this.capacity = 16;
         list = (Type[]) new Comparable[capacity];
+        comparisons = 0;
     }
 
     //insert - Inserts the item at position index. Any elements after the inserted
@@ -50,13 +52,12 @@ public class MyArrayList<Type extends Comparable<Type>> {
     //remove - Removes the element at position index and returns the element. Any
     //elements after the removed element shuffle down to fill the empty position. If index
     //is out of bounds this method does nothing and returns null.
-    public Object remove(int index){
+    public Type remove(int index){
         //Check if index is out of bounds
         if(index < 0 || index >= size) return null;
-
         Type type = list[index];
         for(int i = index; i < size-1; i++){ //Shuffle elements down
-            list[index] = list[i+1];
+            list[i] = list[i+1];
         }
         list[size] = null;
         size--;
@@ -65,7 +66,7 @@ public class MyArrayList<Type extends Comparable<Type>> {
 
     //contains - Searches the list for the item and returns true if found or false
     public boolean contains(Type type){
-        //comparisons++;
+        comparisons++;
         for(int i = 0; i < size; i++){
             comparisons++;
             if(list[i].compareTo(type) == 0) return true; //0 is equals
@@ -92,7 +93,7 @@ public class MyArrayList<Type extends Comparable<Type>> {
 
     //sort - Sorts the list in ascending order - merge sort
     public void sort(){
-        merge(0, size-1);
+        if(!isEmpty()) merge(0, size-1);
     }
 
     //Helper method for sort
@@ -171,7 +172,7 @@ public class MyArrayList<Type extends Comparable<Type>> {
     //list and copies the elements into a new array.
     private void resize(){
         capacity *= 2;
-        Type[] list = (Type[]) new Object[capacity];
+        Type[] list = (Type[]) new Comparable[capacity];
         //Copy elements into new array
         for(int i = 0; i < size; i++){
             list[i] = this.list[i];
