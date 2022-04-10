@@ -12,8 +12,8 @@ public class UniqueWords {
 
     //UniqueWords - Calls each of the addUniqueWords methods one at a time.
     public UniqueWords() throws IOException {
-        //addUniqueWordsToLinkedList();
-        //addUniqueWordsToArrayList();
+        addUniqueWordsToLinkedList();
+        addUniqueWordsToArrayList();
         addUniqueWordsToOrderedList();
     }
 
