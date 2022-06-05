@@ -1,7 +1,8 @@
 /*
- *This class
+ *This class is an ordered list data structure based off an ArrayList
  *@author Kevin Kulman
- *@version 4/10/22
+ *@version 4/29/22
+ *
  */
 
 public class MyOrderedList<Type extends Comparable<Type>> {
@@ -15,10 +16,10 @@ public class MyOrderedList<Type extends Comparable<Type>> {
     //add - Adds the item to the position of the list where it belongs. This method should
     //run in O(n) time in the worst case.
     public void add(Type type){
-        comparisons++;
+        //comparisons++;
         list.insert(type);
         for(int i = size()-1; i > 0; i--) {
-            comparisons++;
+            //comparisons++;
             if (list.get(i).compareTo(list.get(i-1)) < 0) {
                 //swap
                 Type temp = list.get(i);
@@ -40,7 +41,7 @@ public class MyOrderedList<Type extends Comparable<Type>> {
 
     //Helper method for remove
     //Returns index if found, otherwise returns -1
-    private int removeBinarySearch(Type type, int start, int finish){
+    public int removeBinarySearch(Type type, int start, int finish){
         int mid = finish/2;
         Type target = list.get(mid);
         if(target.compareTo(type) == 0) return mid;
@@ -52,25 +53,53 @@ public class MyOrderedList<Type extends Comparable<Type>> {
 
     //+binarySearch - Uses a binary search to search the list for item and returns true
     //if found, and false, otherwise.
-    public boolean binarySearch(Type type){
-        if (isEmpty()) return false; //Check if empty list
+    public Type binarySearch(Type type){
+        comparisons++;
+        if (isEmpty()) return null; //Check if empty list
         //list.sort();
         return binarySearch(type, 0, size()-1);
     }
 
     //Helper method for recursive binarySearch
-    private boolean binarySearch(Type type, int start, int finish){
+    private Type binarySearch(Type type, int start, int finish){
         int mid = (start+finish)/2;
         Type target = list.get(mid);
+//        comparisons++;
+        if(target.compareTo(type) == 0) return type;
         //comparisons++;
-        if(target.compareTo(type) == 0) return true;
-        //comparisons++;
-        if(start == finish && target.compareTo(type) != 0) return false;
+        if(start == finish && target.compareTo(type) != 0) return null;
         comparisons++;
         if(target.compareTo(type) >= 0) return binarySearch(type, start, mid);
-        comparisons++;
         return binarySearch(type, mid+1, finish);
     }
+
+    //+binarySearch - Uses a binary search to search the list for item and returns index
+    //THIS IS HELPFUL FOR HUFFMAN ENCODER
+    //if found, and false, otherwise.
+    public int binarySearchReturnIndex(Type type){
+        if (isEmpty()) return -1; //Check if empty list
+        return binarySearchReturnIndex(type, 0, size()-1);
+    }
+
+    //Helper method for recursive binarySearch
+    private int binarySearchReturnIndex(Type type, int start, int finish){
+        int mid = (start+finish)/2;
+        Type target = list.get(mid);
+        if(target.compareTo(type) == 0) return mid;
+        if(start == finish && target.compareTo(type) != 0) return -1;
+        if(target.compareTo(type) >= 0) return binarySearchReturnIndex(type, start, mid);
+        return binarySearchReturnIndex(type, mid+1, finish);
+    }
+
+    // get - Returns the element stored at index and null if the index is out of bounds.
+    public Type get(int index){
+        return list.get(index);
+    }
+
+//    //set - locates an element and updates it, adds the element if not found
+//    public Type set(Type type){
+//
+//    }
 
     //size - return size of the list
     public int size(){

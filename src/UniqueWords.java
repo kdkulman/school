@@ -3,18 +3,22 @@ import java.io.IOException;
 /*
  * This class will calculate the number of unique words in a given text file
  * @author Kevin Kulman
- * @version 4/10/22
+ * @version 5/24/22
  *
  */
 public class UniqueWords {
 
-    private BookReader book = new BookReader("C:\\Java\\jdk-17.0.1\\bin\\corejava\\v1ch02\\DataStructures\\src\\WarAndPeace.txt");
+    private BookReader book = new BookReader("WarAndPeace.txt");
 
     //UniqueWords - Calls each of the addUniqueWords methods one at a time.
     public UniqueWords() throws IOException {
         addUniqueWordsToLinkedList();
         addUniqueWordsToArrayList();
         addUniqueWordsToOrderedList();
+        addUniqueWordsToBST();
+        addUniqueWordsToAVL();
+        addUniqueWordsToHashTable();
+
     }
 
     //Adds the unique words to a MyLinkedList.
@@ -26,7 +30,7 @@ public class UniqueWords {
         int uniqueWords = 0;
         String word = book.words.first();
         System.out.println();
-        System.out.print("Adding unique words to LinkedList...");
+        System.out.println("Adding unique words to LinkedList...");
 
         long startTime = System.currentTimeMillis(); //START TIMING METHOD
         while(word != null) {
@@ -38,15 +42,15 @@ public class UniqueWords {
         }
         long endTime = System.currentTimeMillis();
         long duration = (endTime - startTime)/1000; //in seconds
-        System.out.println("" + uniqueWords + " unique words found in " + duration + " seconds");
+        System.out.println("Unique words: " + uniqueWords + " found in " + duration + " seconds");
         System.out.print("Sorting LinkedList...");
         startTime = System.currentTimeMillis(); //START TIMING METHOD
-        //book.words.sort();
         list.sort();
         endTime = System.currentTimeMillis();
         duration = (endTime - startTime)/1000; //in seconds
         System.out.println("in " + duration + " seconds");
-        System.out.println("" + list.comparisons + " comparisons made");
+        System.out.println("Comparisons: " + list.comparisons);
+
 
     }
 
@@ -56,7 +60,7 @@ public class UniqueWords {
         //Check if word is already included
         String word = book.words.first();
         System.out.println();
-        System.out.print("Adding unique words to ArrayList...");
+        System.out.println("Adding unique words to ArrayList...");
         long startTime = System.currentTimeMillis(); //START TIMING METHOD
         while(word != null) {
             if(!list.contains(word)) {
@@ -67,14 +71,17 @@ public class UniqueWords {
         }
         long endTime = System.currentTimeMillis();
         long duration = (endTime - startTime)/1000; //in seconds
-        System.out.println("" + uniqueWords + " unique words found in " + duration + " seconds");
+        System.out.println("Unique words: " + uniqueWords + " found in " + duration + " seconds");
         System.out.print("Sorting ArrayList...");
+
+
+
         startTime = System.currentTimeMillis(); //START TIMING METHOD
         list.sort();
         endTime = System.currentTimeMillis();
         duration = (endTime - startTime); //in milliseconds
         System.out.println("in " + duration + " milliseconds");
-        System.out.println("" + list.comparisons + " comparisons made");
+        System.out.println("Comparisons: " + list.comparisons);
 
     }
 
@@ -84,10 +91,10 @@ public class UniqueWords {
         //Check if word is already included
         String word = book.words.first();
         System.out.println();
-        System.out.print("Adding unique words to OrderedList...");
+        System.out.println("Adding unique words to OrderedList...");
         long startTime = System.currentTimeMillis(); //START TIMING METHOD
         while(word != null) {
-            if(!list.binarySearch(word)) {
+            if(list.binarySearch(word) == null) {
                 uniqueWords++;
                 list.add(word);
             }
@@ -95,9 +102,85 @@ public class UniqueWords {
         }
         long endTime = System.currentTimeMillis();
         long duration = (endTime - startTime)/1000; //in seconds
-        System.out.println("" + uniqueWords + " unique words found in " + duration + " seconds");
-        System.out.println("" + list.comparisons + " comparisons made");
-
+        System.out.println("Unique words: " + uniqueWords + " found in " + duration + " seconds");
+        System.out.println("Comparisons: " + list.comparisons);
     }
 
+    //addUniqueWordsToBST - Adds the unique words to a MyBinarySearchTree.
+        //a. For each word in the list stored in book:
+            //■ Check to see if the word is stored in the binary search tree of unique
+            //words.
+            // ● If it is not, add it to the binary search tree.
+            //● Otherwise, skip this word.
+        //b. Calls toString from the binary search tree to extract the words in order
+    public void addUniqueWordsToBST(){
+        MyBinarySearchTree<String> tree = new MyBinarySearchTree<String>();
+        int uniqueWords = 0;
+        //Check if word is already included
+        String word = book.words.first();
+        System.out.println();
+        System.out.println("Adding unique words to Binary Search Tree...");
+        long startTime = System.currentTimeMillis(); //START TIMING METHOD
+        while(word != null) {
+            if(tree.find(word) == null) {
+                uniqueWords++;
+                tree.add(word);
+            }
+            word = book.words.next();
+        }
+        long endTime = System.currentTimeMillis();
+        long duration = (endTime - startTime); //in seconds
+        System.out.println("Unique words: " + uniqueWords + " found in " + duration + " milliseconds");
+        System.out.println("Comparisons: " + tree.comparisons);
+        System.out.println("Tree Depth: " + tree.height());
+        //System.out.println(tree.toString());
+        //System.out.println(book.words.toString());
+    }
+
+    public void addUniqueWordsToAVL(){
+        MyBinarySearchTree<String> treeAVL = new MyBinarySearchTree<String>(true);
+        int uniqueWords = 0;
+        //Check if word is already included
+        String word = book.words.first();
+        System.out.println();
+        System.out.println("Adding unique words to AVL Tree...");
+        long startTime = System.currentTimeMillis(); //START TIMING METHOD
+        while(word != null) {
+            if(treeAVL.find(word) == null) {
+                uniqueWords++;
+                treeAVL.add(word);
+            }
+            word = book.words.next();
+        }
+        long endTime = System.currentTimeMillis();
+        long duration = (endTime - startTime); //in seconds
+        System.out.println("Unique words: " + uniqueWords + " found in " + duration + " milliseconds");
+        System.out.println("Comparisons: " + treeAVL.comparisons);
+        System.out.println("Tree Depth: " + treeAVL.height());
+        System.out.println("Rotations: " + treeAVL.rotations);
+        //System.out.println(treeAVL.toString());
+        //System.out.println(book.words.toString());
+    }
+
+    public void addUniqueWordsToHashTable(){
+        MyHashTable<String, Integer> hash = new MyHashTable<>(32768);
+        int uniqueWords = 0;
+        //Check if word is already included
+        String word = book.words.first();
+        System.out.println();
+        System.out.println("Adding unique words to Hash Table...");
+        long startTime = System.currentTimeMillis(); //START TIMING METHOD
+        while(word != null) {
+            if(hash.get(word) == null) {
+                hash.put(word, 1);
+                uniqueWords++;
+            }
+            word = book.words.next();
+        }
+        long endTime = System.currentTimeMillis();
+        long duration = (endTime - startTime); //in seconds
+        System.out.println("Unique words: " + uniqueWords + " found in " + duration + " milliseconds");
+        System.out.println("Comparisons: " + hash.comparisons);
+        System.out.println("Max probe: " + hash.maxProbe);
+    }
 }

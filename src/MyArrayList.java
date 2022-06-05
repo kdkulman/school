@@ -1,7 +1,7 @@
 /*
  * Implementation of an ArrayList
  * @author Kevin
- * @version 4/10/22
+ * @version 4/29/22
  *
  */
 
@@ -59,7 +59,7 @@ public class MyArrayList<Type extends Comparable<Type>> {
         for(int i = index; i < size-1; i++){ //Shuffle elements down
             list[i] = list[i+1];
         }
-        list[size] = null;
+        list[size-1] = null;
         size--;
         return type;
     }

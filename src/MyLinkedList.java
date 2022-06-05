@@ -149,20 +149,17 @@ public class MyLinkedList<Type extends Comparable> {
         for(int i = 0; i < start; i++){ //move current to start
             next();
         }
+        Node startNode = current;
         Comparable[] helper = new Comparable[finish+1];
         for(int i = start; i <= finish; i++){ //COPY INTO HELPER LIST
             helper[i] = current();
             next();
         }
-        //MOVE CURRENT TO START
-        first();
-        for(int i = 0; i < start; i++){
-            next();
-        }
-
+        current = startNode;
         int mid = (start+finish)/2;
         int i = start;
         int j = mid + 1;
+
         while(i <= mid && j <= finish) { //keep track of indices
             if (helper[i].compareTo(helper[j]) <= 0) {
                 current.item = (Type) helper[i]; //update actual linked list

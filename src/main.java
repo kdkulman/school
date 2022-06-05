@@ -26,32 +26,39 @@ public class main {
         testCount++;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        MyHashTable<Integer, String> hash = new MyHashTable<>(32768);
+        MyHashTable<Integer, Integer> hashT = new MyHashTable<>(32768);
+//
 
-        try {
-            UniqueWords uniqueWords = new UniqueWords();
-//            BookReader b = new BookReader("C:\\Java\\jdk-17.0.1\\bin\\corejava\\v1ch02\\DataStructures\\src\\WarAndPeace.txt");
-        } catch (IOException e){
-            System.out.println("File not found.");
-        }
-        //Test 1
-
-//        MyLinkedList list = new MyLinkedList<>();
-//        LinkedList<Integer> list2 = new LinkedList<>();
-//        Random rand = new Random();
-//        for(int i = 0; i < 100000; i++){
-//            list.addToEnd(rand.nextInt(40000));
-//            list2.add(rand.nextInt(50000));
+//        for(int i = 0; i < 32768; i++){
+//            hash.put(i, "kevin");
 //        }
-//        Collections.sort(list2);
-//        //list.sort();
-//        System.out.println(list.toString());
-//        System.out.println("Sorted with " + list.comparisons + " comparisons");
+//        hash.put("Kevin", 25);
+//        hash.put("Eevee", 23);
+//        hash.put("Sophie", 1);
+//        hash.put("Sophie", 1);
+//        hash.put("Sophie", 14);
+//        System.out.println(hash.toString());
+//
+//        System.out.println(hash.get("Kevin"));
+//        System.out.println(hash.get("Eeve"));
+//        System.out.println(hash.get("Eevee"));
+//        System.out.println(hash.get("Sophie"));
+//        int array[] = { 5, 3, 7, 1, 4, 6, 8, 2, 0, 9 };
+//        for (int index = 0; index < array.length; index++)
+//            hashT.put(index, index * 10);
+////
+//        System.out.println("Comparisons: " + hashT.comparisons);
+//        UniqueWords w = new UniqueWords();
+
+
 
 
         //RESULT
         System.out.println("----------------------------");
         System.out.println("Passed " + passed + "/" + testCount + " tests!");
+
 
     }
 }
